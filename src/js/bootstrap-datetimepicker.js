@@ -48,6 +48,14 @@
       if (!(options.pickTime || options.pickDate))
         throw new Error('Must choose at least one picker');
       this.options = options;
+      //added by jeff
+      this.disableDates = ("disableDates" in this.options) ? this.options.disableDates : [];
+      for(var i in this.disableDates){
+        if( this.disableDates[i] instanceof Date )
+          this.disableDates[i] = this.disableDates[i].valueOf();
+        this.disableDates[i] = Math.round(this.disableDates[i] / 86400000)*86400000;
+      }
+
       this.$element = $(element);
       this.language = options.language in dates ? options.language : 'en'
       this.pickDate = options.pickDate;
@@ -352,6 +360,16 @@
       this.widget.find('.datepicker-months td').append(html);
     },
 
+    //added by Jeff
+    inDisableDates : function(valdt){
+      var disabled = this.disableDates;
+      for(var i in disabled){
+        if(disabled[i]==valdt) return true;
+      }
+      return false;
+    },
+
+
     fillDate: function() {
       var year = this.viewDate.getUTCFullYear();
       var month = this.viewDate.getUTCMonth();
@@ -413,6 +431,10 @@
           clsName += ' disabled';
         }
         if (prevMonth.valueOf() > this.endDate) {
+          clsName += ' disabled';
+        }
+        //added by jeff
+        if ( this.inDisableDates(prevMonth.valueOf())) {
           clsName += ' disabled';
         }
         row.append('<td class="day' + clsName + '">' + prevMonth.getUTCDate() + '</td>');
