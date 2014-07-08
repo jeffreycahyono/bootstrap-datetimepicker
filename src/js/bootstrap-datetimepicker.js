@@ -1008,10 +1008,10 @@
     _attachDatePickerGlobalEvents: function() {
       $(window).on(
         'resize.datetimepicker' + this.id, $.proxy(this.place, this));
-      if (!this.isInput) {
+//            if (!this.isInput) {
         $(document).on(
           'mousedown.datetimepicker' + this.id, $.proxy(this.hide, this));
-      }
+//            }
     },
 
     _detachDatePickerEvents: function() {
@@ -1052,9 +1052,9 @@
 
     _detachDatePickerGlobalEvents: function () {
       $(window).off('resize.datetimepicker' + this.id);
-      if (!this.isInput) {
+//            if (!this.isInput) {
         $(document).off('mousedown.datetimepicker' + this.id);
-      }
+//            }
     },
 
     _isInFixed: function() {
